@@ -11,7 +11,7 @@ def main():
     url = 'https://rpachallengeocr.azurewebsites.net/'
     accessible_url = conection_url_verify(url)
 
-    site_init(url) if accessible_url else print("bye")
+    site_init(url) if accessible_url else print("Bye.")
 
     max_window_img = 'max_window.png'
     move_to_center_img_click(max_window_img)
@@ -34,7 +34,7 @@ def conection_url_verify(url_to_be_verify):
         print("The url is not accessible. Try again.")
         return False
     else:
-        print(f"The url is accessible. Code {url.getcode()} ")
+        print(f"The url is accessible. Code {url.getcode()}. ")
         return True
 
 

@@ -11,13 +11,10 @@ def main():
     url = 'https://rpachallengeocr.azurewebsites.net/'
     accessible_url = conection_url_verify(url)
 
-    if accessible_url:
-        site_init(url)
-    else:
-        print("Bye")
+    site_init(url) if accessible_url else print("bye")
 
     max_window_img = 'max_window.png'
-    move_to_center_image_click(max_window_img)
+    move_to_center_img_click(max_window_img)
 
     p.sleep(1)
     p.hotkey('tab')
@@ -53,26 +50,25 @@ def extract_table_from_page(next_image):
             r.table('//*[@id="tableSandbox"]', 'Temp.csv')
             extrc_table = pd.read_csv('Temp.csv')
             extrc_table.to_csv(r'WebTable.csv', mode='a', index=None, header=True)
-            move_to_center_image_click(next_image, 0.7)
+            move_to_center_img_click(next_image, 0.7)
 
         else:
             r.table('//*[@id="tableSandbox"]/tbody', 'Temp.csv')
             extrc_table = pd.read_csv('Temp.csv')
             extrc_table.to_csv(r'WebTable.csv', mode='a', index=None, header=True)
-            move_to_center_image_click(next_image, 0.7)
+            move_to_center_img_click(next_image, 0.7)
         # os.remove('Temp.csv')
 
 
-def move_to_center_image_click(image, conf=0.5):
+def move_to_center_img_click(image, conf=0.5):
     cordinate = center_image(image, conf)
-    print(cordinate)
     p.moveTo(cordinate, duration=1)
     p.sleep(2)
     p.click()
 
 
-def center_image(image, conf):
-    center_img = py.locateCenterOnScreen(image, confidence=conf)
+def center_image(img, conf):
+    center_img = py.locateCenterOnScreen(img, confidence=conf)
     return center_img
 
 

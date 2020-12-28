@@ -8,15 +8,15 @@ import os
 
 
 def main():
-    site = 'https://rpachallengeocr.azurewebsites.net/'
-    site_acessivel = verifca_site(site)
+    url = 'https://rpachallengeocr.azurewebsites.net/'
+    accessible_url = conection_url_verify(url)
 
-    if site_acessivel:
-        site_init(site)
+    if accessible_url:
+        site_init(url)
     else:
-        print("Tchau")
+        print("Bye")
 
-    image = 'max_window.png'
+    image =  'max_window.png'
     move_to_center_image_click(image)
 
     p.sleep(1)
@@ -27,6 +27,17 @@ def main():
     next_image = 'next.png'
     extract_table(next_image)
 
+def conection_url_verify(url_to_be_verify):
+    try:
+        url = urllib.request.urlopen(url_to_be_verify)
+    except (urllib.error.URLError):
+        print("The url is not accessible. Try again.")
+        return False
+    else:
+        print(f"The url is accessible. Code {url.getcode()} ")
+        return True
+
+
 
 def site_init(url):
     r.init()
@@ -34,15 +45,6 @@ def site_init(url):
     r.url(webpage_url=url)
 
 
-def verifca_site(site_a_ser_verificado):
-    try:
-        url = urllib.request.urlopen(site_a_ser_verificado)
-    except (urllib.error.URLError):
-        print("o Site não está acessivel.")
-        return False
-    else:
-        print(f"Tudo ok. Codigo {url.getcode()} ")
-        return True
 
 
 def extract_table(next_image):
@@ -58,7 +60,7 @@ def extract_table(next_image):
             tabela = pd.read_csv('Temp.csv')
             tabela.to_csv(r'WebTable.csv', mode='a', index=None, header=True)
             move_to_center_image_click(next_image, 0.7)
-        os.remove('Temp.csv')
+        # os.remove('Temp.csv')
 
 
 def move_to_center_image_click(image, conf=0.5):

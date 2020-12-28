@@ -16,16 +16,19 @@ def main():
     else:
         print("Bye")
 
-    image =  'max_window.png'
-    move_to_center_image_click(image)
+    max_window_img = 'max_window.png'
+    move_to_center_image_click(max_window_img)
 
     p.sleep(1)
     p.hotkey('tab')
     p.press('right', presses=10)
 
     p.sleep(1.5)
-    next_image = 'next.png'
-    extract_table(next_image)
+    next_btn_img = 'next.png'
+    extract_table_from_page(next_btn_img)
+
+    r.close()
+
 
 def conection_url_verify(url_to_be_verify):
     try:
@@ -38,27 +41,24 @@ def conection_url_verify(url_to_be_verify):
         return True
 
 
-
 def site_init(url):
     r.init()
     r.wait(2.0)
     r.url(webpage_url=url)
 
 
-
-
-def extract_table(next_image):
+def extract_table_from_page(next_image):
     for count in range(1, 4):
         if count == 1:
             r.table('//*[@id="tableSandbox"]', 'Temp.csv')
-            tabela = pd.read_csv('Temp.csv')
-            tabela.to_csv(r'WebTable.csv', mode='a', index=None, header=True)
+            extrc_table = pd.read_csv('Temp.csv')
+            extrc_table.to_csv(r'WebTable.csv', mode='a', index=None, header=True)
             move_to_center_image_click(next_image, 0.7)
 
         else:
             r.table('//*[@id="tableSandbox"]/tbody', 'Temp.csv')
-            tabela = pd.read_csv('Temp.csv')
-            tabela.to_csv(r'WebTable.csv', mode='a', index=None, header=True)
+            extrc_table = pd.read_csv('Temp.csv')
+            extrc_table.to_csv(r'WebTable.csv', mode='a', index=None, header=True)
             move_to_center_image_click(next_image, 0.7)
         # os.remove('Temp.csv')
 
